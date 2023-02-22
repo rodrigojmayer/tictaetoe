@@ -3,7 +3,7 @@
     {
       "id": 1,
       "details": "pepi",
-      "turn": "X",
+      "turn": "O",
       "buttonsStates": [
         {
           "id": 0,
