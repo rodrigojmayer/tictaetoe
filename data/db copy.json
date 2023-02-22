@@ -1,0 +1,56 @@
+{
+  "turns": [
+    {
+      "id": 1,
+      "details": "change again",
+      "turn": "X",
+      "buttonsStates": [
+        {
+          "id": 0,
+          "free": 1,
+          "mark": ""
+        },
+        {
+          "id": 1,
+          "free": 1,
+          "mark": ""
+        },
+        {
+          "id": 2,
+          "free": 1,
+          "mark": ""
+        },
+        {
+          "id": 3,
+          "free": 1,
+          "mark": ""
+        },
+        {
+          "id": 4,
+          "free": 1,
+          "mark": ""
+        },
+        {
+          "id": 5,
+          "free": 1,
+          "mark": ""
+        },
+        {
+          "id": 6,
+          "free": 1,
+          "mark": ""
+        },
+        {
+          "id": 7,
+          "free": 1,
+          "mark": ""
+        },
+        {
+          "id": 8,
+          "free": 1,
+          "mark": ""
+        }
+      ]
+    }
+  ]
+}
