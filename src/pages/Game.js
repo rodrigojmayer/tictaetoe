@@ -74,7 +74,7 @@ export default function Game() {
       // update0(0);   
       
       // fetch('http://localhost:8000/turns/1', {
-      fetch(`${URL_API}/turns/1`, {
+      fetch(`${URL_API}/1`, {
         method: 'PATCH',
         headers: {"Content-type": "application/json"},
         body: JSON.stringify({"buttonsStates": updateButtons, "turn": nextTurn})
@@ -112,7 +112,7 @@ export default function Game() {
     
     
     // fetch('http://localhost:8000/turns/1', {
-    fetch(`${URL_API}/turns/1`, {
+    fetch(`${URL_API}/1`, {
       method: 'PATCH',
       headers: {"Content-type": "application/json"},
       body: JSON.stringify({"buttonsStates": restartButtons, "turn": turn})
@@ -136,7 +136,7 @@ export default function Game() {
         setNumber(prev=>prev+1);
         // console.log("UseEffect running");
         // fetch('http://localhost:8000/turns/')
-        fetch(`${URL_API}/turns/`)
+        fetch(`${URL_API}/`)
         .then(res => res.json())
         .then(data => {
           console.log(data[0].buttonsStates)
