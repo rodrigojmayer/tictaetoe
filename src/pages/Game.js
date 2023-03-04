@@ -3,8 +3,6 @@ import {   Grid, makeStyles, Typography } from '@material-ui/core';
 import {  Button, createTheme, ThemeProvider } from '@mui/material'
 import { blue, grey, red } from '@material-ui/core/colors';
 
-const URL_API = "https://my-json-server.typicode.com/rodrigojmayer/tictaetoeAPI/db";
-
 
 const theme = createTheme({
   palette: {
@@ -31,133 +29,90 @@ const useStyles = makeStyles({
 })
 
 export default function Game() {
+
   let gameOff = false;
+  
   let nextTurn;
   const [ turn, setTurn ] = useState("X")
-  const [ buttonsState, setButtonsState ] = useState([ 
-    {id: 0, free: 1, mark: ""},
-    {id: 1, free: 1, mark: ""},
-    {id: 2, free: 1, mark: ""},
-    {id: 3, free: 1, mark: ""},
-    {id: 4, free: 1, mark: ""},
-    {id: 5, free: 1, mark: ""},
-    {id: 6, free: 1, mark: ""},
-    {id: 7, free: 1, mark: ""},
-    {id: 8, free: 1, mark: ""},
-  ]);
+  const [ buttonsState, setButtonsState ] = useState([ "", "", "", "", "", "", "", "", ""]);
 
   const classes = useStyles()
 
-  const handleButton =  (button) => {
-    //  console.log(button);
+  const handleButton = async (button, iButton) => {
+    if(button=== ""){
+      let newArr = [...buttonsState]; 
+      newArr[iButton] = turn; 
+      nextTurn = turn==="X"?"O":"X";
+      setTurn(nextTurn)
+      setButtonsState(newArr);
 
-     const updateButtons = buttonsState.map(buttonsState => {
-      // console.log(buttonsState);
-      // buttonsState.id === button.id ? ,
-      let val = buttonsState.free;
-      let selected = buttonsState.mark;
-      if(button.id === buttonsState.id && buttonsState.free){
-        val = 0;
-        selected = turn;
-        nextTurn = turn==="X"?"O":"X";
-        setTurn(nextTurn)
-      
-      
-      }
-      return {id: buttonsState.id, free: val, mark: selected}
-
-      })
-
-      setButtonsState(updateButtons);
-      // console.log("its entering here??=?")
-      // console.log(updateButtons)
-      // update0(0);   
-      
-      // fetch('http://localhost:8000/turns/1', {
-      fetch(`${URL_API}/1`, {
+      await fetch(`${process.env.REACT_APP_URL_API}`, {
         method: 'PATCH',
         headers: {"Content-type": "application/json"},
-        body: JSON.stringify({"buttonsStates": updateButtons, "turn": nextTurn})
-      })
-      
+        body: `{ 
+                "turn": "`+ nextTurn +`",
+                "buttonsState.` + iButton + `" : "` + turn + `" 
+              }`
+      }).then(
+      )
+    }
   }
-  // console.log(buttonsState[0].mark)
+
   // Finish conditionals
-  if((buttonsState[0].mark!=="" && buttonsState[0].mark === buttonsState[1].mark && buttonsState[0].mark === buttonsState[2].mark) || 
-    (buttonsState[3].mark!=="" && buttonsState[3].mark === buttonsState[4].mark && buttonsState[3].mark === buttonsState[5].mark) ||
-    (buttonsState[6].mark!=="" && buttonsState[6].mark === buttonsState[7].mark && buttonsState[6].mark === buttonsState[8].mark) ||
-    (buttonsState[0].mark!=="" && buttonsState[0].mark === buttonsState[3].mark && buttonsState[0].mark === buttonsState[6].mark) ||
-    (buttonsState[1].mark!=="" && buttonsState[1].mark === buttonsState[4].mark && buttonsState[1].mark === buttonsState[7].mark) ||
-    (buttonsState[2].mark!=="" && buttonsState[2].mark === buttonsState[5].mark && buttonsState[2].mark === buttonsState[8].mark) ||
-    (buttonsState[0].mark!=="" && buttonsState[0].mark === buttonsState[4].mark && buttonsState[0].mark === buttonsState[8].mark) ||
-    (buttonsState[2].mark!=="" && buttonsState[2].mark === buttonsState[4].mark && buttonsState[2].mark === buttonsState[6].mark)){
+  if((buttonsState[0]!=="" && buttonsState[0] === buttonsState[1] && buttonsState[0] === buttonsState[2]) || 
+     (buttonsState[3]!=="" && buttonsState[3] === buttonsState[4] && buttonsState[3] === buttonsState[5]) ||
+     (buttonsState[6]!=="" && buttonsState[6] === buttonsState[7] && buttonsState[6] === buttonsState[8]) ||
+     (buttonsState[0]!=="" && buttonsState[0] === buttonsState[3] && buttonsState[0] === buttonsState[6]) ||
+     (buttonsState[1]!=="" && buttonsState[1] === buttonsState[4] && buttonsState[1] === buttonsState[7]) ||
+     (buttonsState[2]!=="" && buttonsState[2] === buttonsState[5] && buttonsState[2] === buttonsState[8]) ||
+     (buttonsState[0]!=="" && buttonsState[0] === buttonsState[4] && buttonsState[0] === buttonsState[8]) ||
+     (buttonsState[2]!=="" && buttonsState[2] === buttonsState[4] && buttonsState[2] === buttonsState[6])){
       gameOff = true;
       alert(`Winner ${turn==="X"?"O":"X"}`)
-      
-      // classes.grid
   }
-  const restart = () => {
-    const restartButtons = [ 
-      {id: 0, free: 1, mark: ""},
-      {id: 1, free: 1, mark: ""},
-      {id: 2, free: 1, mark: ""},
-      {id: 3, free: 1, mark: ""},
-      {id: 4, free: 1, mark: ""},
-      {id: 5, free: 1, mark: ""},
-      {id: 6, free: 1, mark: ""},
-      {id: 7, free: 1, mark: ""},
-      {id: 8, free: 1, mark: ""},
-    ]
+
+  const restart = async () => {
+    const restartButtons = [ "", "", "", "", "", "", "", "", ""];
     setButtonsState(restartButtons);
-    
-    
-    // fetch('http://localhost:8000/turns/1', {
-    fetch(`${URL_API}/1`, {
+    await fetch(`${process.env.REACT_APP_URL_API}`, {
       method: 'PATCH',
       headers: {"Content-type": "application/json"},
-      body: JSON.stringify({"buttonsStates": restartButtons, "turn": turn})
-    })
-
+      body: JSON.stringify({"buttonsState": restartButtons, "turn" : turn})
+    }).then(
+        gameOff = false
+    )
   }
 
   function buttonColor(button){
-    if(button.mark === "X")
+    if(button === "X")
       return red[600];
-    if(button.mark === "O")
+    if(button === "O")
       return blue[600]
   } 
-
-
 
   const [number, setNumber] = useState(0)
   useEffect(() => {
     if(!gameOff){
-      const interval = setInterval(() => {
+      const interval = setInterval(async () => {
         setNumber(prev=>prev+1);
-        // console.log("UseEffect running");
-        // fetch('http://localhost:8000/turns/')
-        fetch(`${URL_API}/`)
+        await fetch(`${process.env.REACT_APP_URL_API}`)
         .then(res => res.json())
         .then(data => {
-          console.log(data[0].buttonsStates)
-          console.log(gameOff)
-          setButtonsState(data[0].buttonsStates)
-          setTurn(data[0].turn)
-          // setButtonsState(data)
+          setButtonsState(data.buttonsState)
+          setTurn(data.turn)
         })
+        .catch((err) => {
+         console.log(err.message);
+        });
 
       }, 1000);
     return () => {
       clearInterval(interval);
     }
-
   }
   },[gameOff]);
 
-
-
   return (
-
     <ThemeProvider theme={theme}>
       <div className={classes.div}>
         <Typography variant='h6'>
@@ -168,8 +123,8 @@ export default function Game() {
         </Typography>
 
         <Grid container  spacing={2} className={classes.grid} >
-            {buttonsState.map(button => (
-              <Grid key={button.id} item xs={4} >
+            {buttonsState.map((button, index) => (
+              <Grid key={index} item xs={4} >
                 <Button 
                   variant="contained" 
                   className={classes.btn} 
@@ -177,8 +132,8 @@ export default function Game() {
                   sx={{
                     backgroundColor: buttonColor(button),
                   }}
-                  onClick={() => handleButton(button)}  
-                >{button.mark}</Button>
+                  onClick={() => handleButton(button, index)}  
+                >{button}</Button>
               </Grid>
             ))}
             <Button
