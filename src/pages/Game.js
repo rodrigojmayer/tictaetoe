@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {   Grid, makeStyles, Typography } from '@material-ui/core';
 import {  Button, createTheme, ThemeProvider } from '@mui/material'
 import { blue, grey, red } from '@material-ui/core/colors';
+import clsx from 'clsx';
 
 
 const theme = createTheme({
@@ -21,15 +22,11 @@ const useStyles = makeStyles({
     minHeight: "85px",
     width: "10vw",
     minWidth: "85px !important",
-    // height: "15vw",
-    // heightMin: "5vw",
-    // widthMin: "5vw",
     fontSize: "300% !important",
     color: "rgba(255, 255, 255, .7) !important",
   },
   grid: {
     margin: "auto" ,
-    // margin: "10px" ,
     width: "33.5vw",
     minWidth: "300px",
   },
@@ -94,16 +91,9 @@ export default function Game() {
     )
   }
 
-  function buttonColor(button){
-    if(button === "X")
-      return red[600];
-    if(button === "O")
-      return blue[600]
-  } 
-
   const [number, setNumber] = useState(0)
   useEffect(() => {
-    if(!gameOff){
+      if(!gameOff){
       const interval = setInterval(async () => {
         setNumber(prev=>prev+1);
         await fetch(`${process.env.REACT_APP_URL_API}`)
@@ -138,10 +128,10 @@ export default function Game() {
               <Grid key={index} item xs={4} >
                 <Button 
                   variant="contained" 
-                  className={classes.btn} 
+                  className={classes.btn}
                   disabled={gameOff}
                   sx={{
-                    backgroundColor: buttonColor(button),
+                    backgroundColor:  ( button==="X"?"#f44336 !important":(button==="O"?"#039be5 !important":"") ) ,
                   }}
                   onClick={() => handleButton(button, index)}  
                 >{button}</Button>
