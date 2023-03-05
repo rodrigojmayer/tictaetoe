@@ -18,14 +18,25 @@ const theme = createTheme({
 const useStyles = makeStyles({
   btn: {
     height: "10vw",
+    minHeight: "85px",
     width: "10vw",
+    minWidth: "85px !important",
+    // height: "15vw",
+    // heightMin: "5vw",
+    // widthMin: "5vw",
     fontSize: "300% !important",
     color: "rgba(255, 255, 255, .7) !important",
   },
   grid: {
     margin: "auto" ,
+    // margin: "10px" ,
     width: "33.5vw",
+    minWidth: "300px",
   },
+  restart:{
+    margin: "30px auto !important" ,
+    width: "30vw",
+  }
 })
 
 export default function Game() {
@@ -137,7 +148,7 @@ export default function Game() {
               </Grid>
             ))}
             <Button
-              className={classes.grid} 
+              className={classes.restart} 
               variant="contained"
               color="secondary"
               onClick={() => restart()}  
